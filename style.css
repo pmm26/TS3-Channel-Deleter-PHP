@@ -1,0 +1,17 @@
+body {font-family:Century Gothic,sans-serif;font-size:15px;color:#949494;}
+
+a:link{text-decoration:none;color:#949494;}
+a:visited{text-decoration:none;color:#949494;}
+a:hover{text-decoration:none;color:#FF9800;}
+
+th{font-weight:bold;text-align:center;}
+
+.green{color:green;}
+.red{color:red;}
+.blue{color:blue;}
+
+.tablelogin{position:fixed;top:50%;left:50%;margin-top:-40px;margin-left:-150px;}
+.tdleft{width:150px;text-align:left;}
+.tdright{width:150px;text-align:right;}
+
+.center{text-align:center;}
