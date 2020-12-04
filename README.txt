@@ -1,4 +1,4 @@
-#Updated
+# Updated
 
 The Channeldeleter is a tool to check the activity of Channel on a TeamSpeak Server. 
 This Script will add Bin Icons to unused channels in your teamspeak server. 
@@ -7,7 +7,7 @@ It requires you to have a mysql server and run this script in X time using cron.
 
 The delete channel script included in the original TS-N Version has been removed since I do not use it an do not which to support it but if you get the original files it should still work.
 
-#From the Creator
+# From the Creator
 This tool was created from Newcomer1989 for http://www.ts-n.net.
 
 Its allowed to use, edit and reproduce this tool but not to sell it! The Channeldeleter is a project under the GNU Generel Public License.
