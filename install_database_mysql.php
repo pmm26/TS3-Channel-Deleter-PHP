@@ -20,14 +20,14 @@ if(mysqli_connect_errno())
 
 echo $lang['instdb'].'<br>';
 
-if(!$mysqlcon->query("CREATE DATABASE $mysqldbname"))
-{
-	echo $lang['instdberr'].'<span class="red">'.$mysqlcon->error.'</span>';
-}
-else
-{
-	echo'<span class="green">'.sprintf($lang['instdbsuc'],$mysqldbname).'</span>';
-}
+// if(!$mysqlcon->query("CREATE DATABASE $mysqldbname"))
+// {
+// 	echo $lang['instdberr'].'<span class="red">'.$mysqlcon->error.'</span>';
+// }
+// else
+// {
+// 	echo'<span class="green">'.sprintf($lang['instdbsuc'],$mysqldbname).'</span>';
+// }
 
 
 echo '<br><br>'.$lang['insttb'].'<br>';

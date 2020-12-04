@@ -13,7 +13,7 @@ $starttime=microtime(true);
 
 require_once('config.php');
 require_once('lang.php');
-require_once('ts3_lib/TeamSpeak3.php');
+require_once('TeamSpeak3/TeamSpeak3.php');
 
 try
 {
@@ -41,38 +41,6 @@ try
 	//Get the time
 	$todaydate=time();
 
-	if($update==1)
-	{
-		$updatetime=$todaydate-$updateinfotime;
-		$lastupdate=$mysqlcon->query("SELECT * FROM $table_update");
-		$lastupdate=$lastupdate->fetch_row();
-		if($lastupdate[0]<$updatetime)
-		{
-			$newversion=file_get_contents('http://ts-n.net/chdel/version');
-			if(substr($newversion,0,4)!=substr($currvers,0,4))
-			{
-				echo'<b>'.$lang['upinf'].'</b><br><table>';
-				foreach($uniqueid as $clientid)
-				{
-					echo'<tr><td>';
-					try
-					{
-						$ts3_VirtualServer->clientGetByUid($clientid)->message(sprintf($lang['upmsg'],$currvers,$newversion));
-						echo'<span class="green">'.sprintf($lang['upusrinf'],$clientid).'</span>';
-					}
-					catch(Exception $e)
-					{
-						echo'<span class="red">'.sprintf($lang['upusrerr'],$clientid).'</span>';
-					}
-					echo'</td></tr>';
-				}
-				echo'</table><br>';
-				$mysqlcon->query("UPDATE $table_update SET timestamp=$todaydate");
-			}
-		}
-	}
-
-
 	$icontime=$todaydate-$warntime;
 	//Get a list of all channels
 	$tschanarr=$ts3_VirtualServer->channelList();
@@ -90,15 +58,8 @@ try
 		$count=0;
 		foreach($tschanarr as $channel)
 		{
-			$channelid=$channel['cid'];
-			$checkicon=$ts3_VirtualServer->channelPermList($channelid,$permsid=FALSE);
-			foreach($checkicon as $rows)
-			{
-				if($rows["permvalue"]=="301694691")
-				{
-					$count=$count+1;
-					$ts3_VirtualServer->channelPermRemove($channelid, 142);
-				}
+			if($channel['channel_icon_id']==$iconId) {
+				$channel->permRemoveByName('i_icon_id');
 			}
 		}
 		if($count>0)
@@ -118,7 +79,7 @@ try
 		$channelid=$channel['cid'];
 		$channelname=$channel['channel_name'];
 		$channelname=htmlspecialchars($channelname, ENT_QUOTES);
-		$=$channel['total_clients'];
+		$userinchannel=$channel['total_clients'];
 		$chauserinchannelnnelpath=$channel->getPathway();
 		$channelpath=htmlspecialchars($channelpath, ENT_QUOTES);
 		
@@ -135,13 +96,8 @@ try
 				$mysqlcon->query("UPDATE $table_channel SET lastuse='$todaydate',path='$channelpath' WHERE cid='$channelid'");
 				if($seticon==1)
 				{
-					$checkicon=$ts3_VirtualServer->channelPermList($channelid,$permsid=FALSE);
-					foreach($checkicon as $rows)
-					{
-						if($rows["permvalue"]=="301694691")
-						{
-							$ts3_VirtualServer->channelPermRemove($channelid, 142);
-						}
+					if($channel['channel_icon_id']==$iconId) {
+						$channel->permRemoveByName('i_icon_id');
 					}
 				}
 			}
@@ -151,13 +107,14 @@ try
 				$lastusetime=$lastusetime->fetch_row();
 				$mysqlcon->query("UPDATE $table_channel SET path='$channelpath' WHERE cid='$channelid'");
 				echo'<td><span class="red">'.$lang['cidnoup'].'</span></td>';
-				if($seticon==1 && !in_array($channelid, $nodelete) && $lastusetime[0]<$icontime && substr_count(strtolower($tschanarr[$channelid]['channel_name']),"spacer")==0)
+
+				if($seticon==1 && !in_array($channelid, $nodelete) && $lastusetime[0]<$icontime && !$channel->isSpacer())
 				{
 					$children=$channel->getChildren();
 					if($children=="")
 					{
 						echo'<td><span class="blue">'.$lang['seticon'].'</span></td>';
-						$ts3_VirtualServer->channelPermAssign($channelid, 142, 301694691);
+						$channel->permAssignByName('i_icon_id', $iconId);
 					}
 				}
 				echo'</tr>';

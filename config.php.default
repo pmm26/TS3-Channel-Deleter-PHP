@@ -1,0 +1,43 @@
+<?php
+/* Fill in the TeamSpeak 3 Server Query Settings */
+$cfg["host"]	= "";			// the address of the TeamSpeak server
+$cfg["query"]	= "10011";				// the TeamSpeak Server Query-Port (TCP)
+$cfg["voice"]	= "9987";				// the TeamSpeak Server Voice-Port (UDP)
+$cfg["user"]	= "";			// the name of the QueryUser
+$cfg["pass"]	= "";				// the password for the QueryUser above
+
+/* Fill in the MYSQL Database Settings */
+$mysqldbhost	= "";				// address where the MySQL server is hosted; default 127.0.0.1 (local)
+$mysqldblogin	= "";				// a MySQL user (Permissions: DROP, INSERT, UPDATE and SELECT)
+$mysqldbpasswd	= "";				// the Password to the MySQL User above
+$mysqldbname	= "";			// needn't to change, only if you wish
+$table_channel	= "channellastuse";			// needn't to change, only if you wish
+$table_update	= "upcheck";				// needn't to change, only if you wish
+
+/* Fill in your wishes configuration */
+
+// The Language, which should be use for the output
+$language = "en";					// possible choices are "en", "de" or "et"
+
+// The Format which the date will be shown in
+$dateformat	= "Y-m-d H:i";				// possible options -> http://php.net/manual/de/function.date.php
+
+// The name, which the Query will use to connect
+$queryname = "Manager";			// its not the serverquery login name; you can name it free!
+$queryname2	= "cd";			// Fallback name of query, if first one is already in use
+
+$seconds = 86400*18;
+
+// Time, which a channel have to be unused before warning on the list_delete.php
+$warntime	= "$seconds";				// time in seconds; example: 432000 = 5 days
+
+// Set a Icon to the channel, if the warntime is reached
+$iconId	= 301694691;					// 1 = active; 0 = inactive
+
+$seticon = 1;					// 1 = active; 0 = inactive
+$deleteicons = 0;					// 1 = active; 0 = inactive; delete all trash icons from server (perhaps reasonable if increase the warntime) -> for perfomance its not recommend to activate this permanent!
+
+// A list of channels (id of the channel), which should not delete automatically
+$nodelete = array(16,17,18,19,20);			// seperate this with a komma
+
+?>
